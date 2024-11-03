@@ -46,7 +46,7 @@ unsigned Matrix<T>::GetCols() const {
 }
 
 template<typename T>
-vector<vector<T>> Matrix<T>::GetMat() const {
+vector<vector<T> > Matrix<T>::GetMat() const {
     return this->Mat;
 }
 

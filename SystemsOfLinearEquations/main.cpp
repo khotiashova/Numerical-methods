@@ -64,7 +64,7 @@ int main(int argc, char*argv[]) {
         review_matrix(matrix, 1);
     }
     in_file.close();
-    int rows = 30, m = 20;
+    int rows = 50, m = 15;
     Matrix<double> matrix(rows, rows + 1, 0);
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < rows; j++) {
@@ -76,7 +76,7 @@ int main(int argc, char*argv[]) {
         }
     }
     for (size_t i = 0; i < rows; i++) {
-        matrix(i, rows) = (double)m * (double)i + rows;
+        matrix(i, rows) = (double)m * (double) rows - i * i * i;
     }
     cout << "Матрица №" << n_matrix + 1 << endl;
     review_matrix(matrix, 1);

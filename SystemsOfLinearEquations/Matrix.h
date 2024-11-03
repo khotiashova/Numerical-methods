@@ -13,17 +13,17 @@ enum
 
 template <typename  T> class Matrix {
 private:
-    vector<vector<T>> Mat;
-    unsigned Rows{};
-    unsigned Cols{};
+    vector<vector<T> > Mat;
+    unsigned Rows;
+    unsigned Cols;
 public:
     Matrix(unsigned rows, unsigned cols, T initial);
     explicit Matrix(const Matrix<T> *matrix);
     T& operator()(const unsigned& row, const unsigned& col);
     const T& operator()(const unsigned& row, const unsigned& col) const;
-    [[nodiscard]] unsigned GetRows() const;
-    [[nodiscard]] unsigned GetCols() const;
-    vector<vector<T>> GetMat() const;
+    unsigned GetRows() const;
+    unsigned GetCols() const;
+    vector<vector<T> > GetMat() const;
     void SwapRows(unsigned first_row, unsigned second_row);
     void MulRow(unsigned row, T scalar);
     void DivRow(unsigned row, T scalar);
