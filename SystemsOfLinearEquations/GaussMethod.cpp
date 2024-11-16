@@ -184,6 +184,7 @@ Matrix<T> inverse_matrix(Matrix<T> &matrix, mode_t upper_flag) {
     return result;
 }
 
+// число обусловленности матрицы
 template<typename T>
 T conditional_number(Matrix<T> &matrix, mode_t norm_flag, mode_t upper_flag) {
     Matrix<T> inv_matrix = inverse_matrix(matrix, upper_flag);
