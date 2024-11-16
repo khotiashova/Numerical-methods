@@ -10,6 +10,7 @@ enum
     MainElement = 1
 };
 
+// вычитание строк, вычитаем из одной строки другую 
 template<typename T>
 void sub_line(Matrix<T> *reduce, unsigned int reduce_row, Matrix<T> *subtrahend, unsigned int subtrahend_row) {
     unsigned cols = reduce->GetCols();
@@ -17,6 +18,7 @@ void sub_line(Matrix<T> *reduce, unsigned int reduce_row, Matrix<T> *subtrahend,
         (*reduce)(reduce_row, i) -= (*subtrahend)(subtrahend_row, i);
 }
 
+// перевод матрицы в верхнетреугольную форму
 template<typename T>
 int to_upper(Matrix<T> *matrix) {
     unsigned rows = matrix->GetRows();
@@ -24,17 +26,22 @@ int to_upper(Matrix<T> *matrix) {
     int swap = 0;
     for (int i = 0; i < rows; i++) {
         unsigned non_zero = i;
+        // поиск ненулевого элемента в столбце i
         for (; non_zero < rows; non_zero++) {
             if ((*matrix)(non_zero, i) != 0) {
                 break;
             }
         }
+        // переходим на следующую итерацию цикла, если не нашелся ненулевой
+        // элемент в столбце i (матрица вырождена)
         if (non_zero == rows || (*matrix)(non_zero, i) == 0)
             continue;
+        // переставляем выбранную строку на позицию i
         if (non_zero != i) {
-            matrix->SwapRows(non_zero, i);\
+            matrix->SwapRows(non_zero, i);
             swap ^= 1;
         }
+        // обнуление i элемента, ниже строки i
         for (int j = i + 1; j < rows; j++) {
             if ((*matrix)(j, i) != 0) {
                 Matrix<T> line = matrix->GetLine(i);
@@ -47,6 +54,9 @@ int to_upper(Matrix<T> *matrix) {
     return swap;
 }
 
+// приведение к верхнему треугольному виду с выбором главного элемента
+// функция идентична функции приведение к верхнему треугольному виду матрицы
+// только за место ненулевого элемента ищем самый большой по модулю элемент
 template<typename T>
 int to_upper_with_main_element(Matrix<T> *matrix) {
     unsigned rows = matrix->GetRows();
@@ -55,16 +65,21 @@ int to_upper_with_main_element(Matrix<T> *matrix) {
     for (int i = 0; i < rows; i++) {
         unsigned main_element = i;
         for (unsigned j = i + 1; j < rows; j++) {
+            // ищем самый большой по модулю элемент
             if (abs((*matrix)(j, i)) > abs((*matrix)(main_element, i))) {
                 main_element = j;
             }
         }
+        // переходим на следующую итерацию цикла, если не нашелся ненулевой
+        // элемент в столбце i (матрица вырождена)
         if ((*matrix)(main_element, i) == 0)
             continue;
+        // переставляем выбранную строку на позицию i
         if (main_element != i) {
             matrix->SwapRows(main_element, i);
             swap ^= 1;
         }
+        // обнуление i элемента, ниже строки i
         for (int j = i + 1; j < rows; j++) {
             if ((*matrix)(j, i) != 0) {
                 Matrix<T> line = matrix->GetLine(i);
@@ -77,6 +92,7 @@ int to_upper_with_main_element(Matrix<T> *matrix) {
     return swap;
 }
 
+// высчитывание определителя матрицы
 template<typename T>
 T determinant(Matrix<T> *matrix, mode_t upper_flag) {
     Matrix<T> tmp_matrix(matrix);
@@ -97,6 +113,7 @@ T determinant(Matrix<T> *matrix, mode_t upper_flag) {
     return result;
 }
 
+// приведение верхнетреугольной матрицы кидиагональному виду
 template<typename T>
 T to_identity(Matrix<T> *matrix) {
     unsigned rows = matrix->GetRows();
@@ -115,6 +132,7 @@ T to_identity(Matrix<T> *matrix) {
     }
 }
 
+// решение системы линейных уравнений
 template<typename T>
 Matrix<T> solution_sys_lin_equ(Matrix<T> &matrix, mode_t upper_flag) {
     Matrix<T> tmp_matrix(matrix);
@@ -133,25 +151,31 @@ Matrix<T> solution_sys_lin_equ(Matrix<T> &matrix, mode_t upper_flag) {
     return result;
 }
 
+// составление обратной матрицы
 template<typename T>
 Matrix<T> inverse_matrix(Matrix<T> &matrix, mode_t upper_flag) {
     size_t rows = matrix.GetRows();
     Matrix<T> tmp_matrix(rows, rows * 2, 0);
+    // копируем исходную матрицу вилевую половину
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < rows; j++) {
             tmp_matrix(i, j) = matrix(i, j);
         }
     }
+    // правая половина диогональная матрица из единиц
     for (size_t i = 0; i < rows; i++) {
         tmp_matrix(i, i + rows) = 1;
     }
+    // приведение  к верхней треугольной форме
     if (upper_flag & MainElement) {
         to_upper_with_main_element(&tmp_matrix);
     } else {
         to_upper(&tmp_matrix);
     }
+    // переводим левую половину в диогональныйй вид
     to_identity(&tmp_matrix);
     Matrix<T> result(rows, rows, 0);
+    // записываем в результат только правую половину, те обратную матрицу
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < rows; j++) {
             result(i, j) = tmp_matrix(i, j + rows);
