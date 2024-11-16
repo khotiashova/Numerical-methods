@@ -5,6 +5,7 @@
 #include "cassert"
 #include "cstdio"
 
+// поиск НОД
 int Fraction::GcdEuclidean(int a, int b){
     while (b > 0) {
         int c = a % b;
@@ -14,6 +15,8 @@ int Fraction::GcdEuclidean(int a, int b){
     return a;
 }
 
+// Перевод из строки в дробь ("a / b" -> a, b)
+// После перевода сокращает дробь
 Fraction::Fraction(const std::string &string) {
     assert(!string.empty());
     std::size_t pos = string.find('/');
@@ -35,6 +38,7 @@ Fraction::Fraction(int numerator, int denominator) {
     Reduce();
 }
 
+// функция сокращения дроби
 void Fraction::Reduce() {
     int gcd = GcdEuclidean(abs(Numerator), Denominator);
     if (gcd != 1) {
@@ -43,6 +47,8 @@ void Fraction::Reduce() {
     }
 }
 
+// функция перевода пары чисел в строку
+// a, b -> "a / b"
 string Fraction::ToString() const {
     string fraction;
     if (Numerator == 0) {
@@ -64,23 +70,28 @@ int Fraction::GetDenominator() const {
     return this->Denominator;
 }
 
+// сложение дробей
 Fraction Fraction::operator+(const Fraction &fraction) const {
     Fraction result(this->Numerator * fraction.GetDenominator() + this->Denominator * fraction.GetNumerator(),
                     this->Denominator * fraction.Denominator);
     return result;
 }
+
+// вычитание дробей
 Fraction Fraction::operator-(const Fraction &fraction) const {
     Fraction result(this->Numerator * fraction.GetDenominator() - this->Denominator * fraction.GetNumerator(),
                     this->Denominator * fraction.Denominator);
     return result;
 }
 
+// умножение дробей
 Fraction Fraction::operator*(const Fraction &fraction) const {
     Fraction result(this->Numerator * fraction.GetNumerator(),
                     this->Denominator * fraction.GetDenominator());
     return result;
 }
 
+// деление дробей
 Fraction Fraction::operator/(const Fraction &fraction) const {
     assert(fraction.GetNumerator() != 0);
     Fraction result(this->Numerator * fraction.GetDenominator(),
