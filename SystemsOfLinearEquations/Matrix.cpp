@@ -3,6 +3,7 @@
 
 #include "Matrix.h"
 
+// инициализация матрицы
 template<typename T>
 Matrix<T>::Matrix(unsigned _rows, unsigned _cols, T _initial)
 {
@@ -14,6 +15,7 @@ Matrix<T>::Matrix(unsigned _rows, unsigned _cols, T _initial)
     Cols = _cols;
 }
 
+// конструктор копирования матрицы
 template<typename T>
 Matrix<T>::Matrix(const Matrix<T> *matrix) {
     Mat = matrix->GetMat();
@@ -45,11 +47,13 @@ unsigned Matrix<T>::GetCols() const {
     return this->Cols;
 }
 
+// получение матрицы. получение из объекта матрицы самих значений
 template<typename T>
 vector<vector<T> > Matrix<T>::GetMat() const {
     return this->Mat;
 }
 
+// метод перестановки строк местами
 template<typename T>
 void Matrix<T>::SwapRows(unsigned int first_row, unsigned int second_row) {
     for (unsigned i = 0; i < this->Cols; i++) {
@@ -60,24 +64,28 @@ void Matrix<T>::SwapRows(unsigned int first_row, unsigned int second_row) {
     }
 }
 
+// метод умножения строки на число
 template<typename T>
 void Matrix<T>::MulRow(unsigned int row, T scalar) {
     for (unsigned i = 0; i < this->Cols; i++)
         this->Mat[row][i] *= scalar;
 }
 
+// метод деления строк на ненулевое число
 template<typename T>
 void Matrix<T>::DivRow(unsigned int row, T scalar) {
     for (unsigned i = 0; i < this->Cols; i++)
         this->Mat[row][i] /= scalar;
 }
 
+// метод вычитания строк
 template<typename T>
 void Matrix<T>::SubRows(unsigned int reduce_row, unsigned int sub_row) {
     for (unsigned i = 0; i < this->Cols; i++)
         this->Mat[reduce_row][i] -= this->Mat[sub_row][i];
 }
 
+// метод печати матрицы
 template<typename T>
 void Matrix<T>::Print() {
     for (unsigned i = 0; i < this->Rows; i++) {
@@ -87,6 +95,7 @@ void Matrix<T>::Print() {
     }
 }
 
+// метод копирование строки
 template<typename T>
 Matrix<T> Matrix<T>::GetLine(unsigned int row) {
     Matrix<T> line(1, this->Cols, 0);
@@ -95,6 +104,7 @@ Matrix<T> Matrix<T>::GetLine(unsigned int row) {
     return line;
 }
 
+// метод
 template<typename T>
 T Matrix<T>::InfinityNorm() {
     T max_row_sum = 0;
