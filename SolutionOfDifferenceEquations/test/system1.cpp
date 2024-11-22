@@ -5,31 +5,31 @@
 #include <cmath>
 
 double func1 (double x,double y) {
-    return 3 - y - x;
+    return - y - x*x;
 }
 
 double sol1 (double x) {
-    return 4 - x - 4 * exp(-x);
+    return -x*x + 2*x - 2 + 12*exp(-x);
 }
 
 double func2_1(double x, double u, double v) {
-    return sin(2 * u * u) + x + v;
+    return sin(1.4 * u * u) - x + v;
 }
 
 double func2_2(double x, double u, double v) {
-    x + u - 2 * v * v + 1;
+    return x + u - 2.2*v*v + 1;
 }
 
 double p(long double x) {
-    return -0.5;
+    return 2;
 }
 
 double q(long double x) {
-    return 1;
+    return -x;
 }
 
 double f(long double x) {
-    return 2;
+    return x * x;
 }
 
 #endif
