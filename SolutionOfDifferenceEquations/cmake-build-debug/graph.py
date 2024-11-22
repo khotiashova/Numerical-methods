@@ -2,13 +2,13 @@ import matplotlib.pyplot as plt
 import sys
 
 if int(sys.argv[1]) == 1:
-
+    # точки сетки
     file_x = open("xoutput", "r")
     x = [float(line) for line in file_x]
-    
+    #значение Рунге-Кутта 2 порядка
     file_y1 = open("y1output", "r")
     y1 = [float(line) for line in file_y1]
-    
+    #значение Рунге-Кутта 4 порядка    
     file_y2 = open("y2output", "r")
     y2 = [float(line) for line in file_y2]
     
