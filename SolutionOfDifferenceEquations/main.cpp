@@ -89,7 +89,6 @@ border_problem_review(long double x0, long double xn, long double sigma1, long d
     }
 
     long double *ans;
-    //ans = gauss_method(A, fm, 1);
     ans = thomas_algo(A, fm);
     FILE *xoutput = fopen("xoutput", "w");
     for (int i = 0; i <= N; ++i) {
